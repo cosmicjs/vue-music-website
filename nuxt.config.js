@@ -1,10 +1,7 @@
+const instanceConfig = require('./instance.config.js')
+
 module.exports = {
-  env: {
-    keyColorBG: '#5339F1',
-    keyColorFG: '#FFFFFF',
-    secondColorBG: '#1A1A1A',
-    secondColorFG: '#FFFFFF'
-  },
+  env: instanceConfig,
   /*
   ** Headers of the page
   */
