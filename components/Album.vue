@@ -21,26 +21,41 @@
         .about(v-html='album.content')
         comment-form(:album='album')
       .pane
-        .pane-title {{ 148 }} Comments
-        comments(:album='album')
+        .pane-title {{ comments.length }} {{ 'comment' | pluralize(comments.length) }}
+        comments(:comments='comments')
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import Vue from 'vue'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import RGBaster from '~/lib/rgbaster'
 import chroma from 'chroma-js'
 
 import Playlist from '~/components/Playlist.vue'
 import Player from '~/components/Player.vue'
+import CommentForm from '~/components/CommentForm.vue'
+import Comments from '~/components/Comments.vue'
+
+Vue.filter('pluralize', (word, amount) => amount > 1 ? `${word}s` : word)
 
 export default {
   name: 'album',
   components: {
     Playlist,
-    Player
+    Player,
+    CommentForm,
+    Comments
   },
   computed: {
     ...mapGetters(['albums']),
+    ...mapState('comments', ['collections']),
+    comments () {
+      const collection = this.collections.find(col => col.albumId === this.album._id)
+      if (collection) {
+        return collection.comments
+      }
+      return []
+    },
     album () {
       const slug = this.$route.params.slug
       return slug ? this.albums.find(album => album.slug === slug) : this.albums[0]
@@ -69,7 +84,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setAlbumColor'])
+    ...mapMutations(['setAlbumColor']),
+    ...mapActions('comments', ['fetchComments']),
   },
   async mounted () {
     if (!this.album.metadata.cover || this.album.color) { return }
@@ -81,6 +97,7 @@ export default {
         color: payload.dominant
       })
     }})
+    this.fetchComments(this.album._id)
   }
 }
 </script>

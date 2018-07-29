@@ -23,7 +23,8 @@ export default {
         play: require('~/assets/icons/play.svg').default,
         pause: require('~/assets/icons/pause.svg').default,
         playBig: require('~/assets/icons/play-big.svg').default,
-        pauseBig: require('~/assets/icons/pause-big.svg').default
+        pauseBig: require('~/assets/icons/pause-big.svg').default,
+        send: require('~/assets/icons/send.svg').default
       }
     }
   },

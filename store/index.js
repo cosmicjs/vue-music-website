@@ -1,11 +1,5 @@
 import Vue from 'vue'
-import Cosmic from 'cosmicjs'
-const cosmic = Cosmic()
-
-const config = {
-  slug: 'music-page',
-  read_key: 'jtSayuuME7eNWFnLd0QEtnyZ9FpyafBo6J6HdWbe7XJvTwV64L'
-}
+import getBucket from '~/lib/cosmic'
 
 export const state = () => ({
   author: null
@@ -37,7 +31,7 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit ({ commit }) {
-    const bucket = await cosmic.bucket(config)
+    const bucket = await getBucket()
     const response = await bucket.getObjects({
       type: 'authors',
       limit: 1,
