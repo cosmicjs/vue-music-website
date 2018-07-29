@@ -9,3 +9,7 @@ npm-debug.log
 
 # Nuxt generate
 dist
+
+# other
+.tern-port
+yarn-error.log

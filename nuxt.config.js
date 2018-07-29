@@ -1,4 +1,10 @@
 module.exports = {
+  env: {
+    keyColorBG: '#5339F1',
+    keyColorFG: '#FFFFFF',
+    secondColorBG: '#1A1A1A',
+    secondColorFG: '#FFFFFF'
+  },
   /*
   ** Headers of the page
   */
@@ -10,13 +16,15 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Personal music site with Nuxt and Cosmic JS' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:500,600&amp;subset=cyrillic' }
     ]
   },
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#FFCC00' },
+  modules: [ '@nuxtjs/moment' ],
   /*
   ** Build configuration
   */
@@ -33,6 +41,27 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+
+      const urlLoader = config.module.rules.find((rule) => rule.loader === 'url-loader')
+      urlLoader.test = /\.(png|jpe?g|gif)$/
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: [
+          { loader: 'svg-sprite-loader'},
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                {removeTitle: true},
+                {convertColors: {shorthex: false, currentColor: true}},
+                {convertPathData: false},
+                {removeDimensions: false}
+              ]
+            }
+          }
+        ]
+      })
     }
   }
 }
