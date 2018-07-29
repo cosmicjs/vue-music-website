@@ -46,7 +46,7 @@ export default {
     ...mapMutations('player', ['setNextTrack']),
     ...mapActions('player', ['playNextTrack', 'toggle']),
     handleClick (track) {
-      if (track == this.currentTrack && this.isPlaying) {
+      if (track == this.currentTrack) {
         this.toggle()
       } else {
         this.setNextTrack(track)

@@ -29,7 +29,6 @@ export default {
   },
   beforeMount () {
     const playlist = this.album.metadata.tracks
-    this.setPlaylist(playlist)
     if (playlist.length > 0) {
       this.setNextTrack(playlist[0])
     } else {
@@ -61,6 +60,7 @@ export default {
       'playNextTrack', 'toggle'
     ]),
     chargeAndPlay (track) {
+      this.setPlaylist(this.playlist)
       this.setNextTrack(track)
       this.playNextTrack()
     },
@@ -71,6 +71,7 @@ export default {
         if (this.nextTrack == this.currentTrack) {
           this.toggle()
         } else {
+          this.setPlaylist(this.playlist)
           this.playNextTrack()
         }
       }

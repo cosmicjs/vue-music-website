@@ -8,13 +8,15 @@ class Player {
   continue () {
     this.audio.play()
   }
-  play (track) {
+  play (track, onEnded) {
     if (this.audio && !this.audio.paused) {
       this.audio.pause()
     }
+    delete this.audio
     const url = track.metadata.audio.url
     this.audio = new Audio(url)
     this.audio.play()
+    this.audio.addEventListener('ended', onEnded)
   }
 }
 
@@ -51,10 +53,21 @@ export const actions = {
     commit('setIsPlaying', true)
     player.continue()
   },
-  playNextTrack ({ commit, state }) {
+  playNextTrack ({ commit, dispatch, state }) {
     commit('setCurrentTrack', state.nextTrack)
-    player.play(state.nextTrack)
+    player.play(state.nextTrack, () => dispatch('pickNextOrStop'))
     commit('setIsPlaying', true)
+  },
+  pickNextOrStop ({ state, commit, dispatch }) {
+    const idx = state.playlist.indexOf(state.currentTrack)
+    if (idx !== -1 && idx !== state.playlist.length - 1) {
+      commit('setNextTrack', state.playlist[idx + 1])
+      dispatch('playNextTrack')
+    } else {
+      commit('setIsPlaying', false)
+      commit('setNextTrack', state.playlist[0])
+      commit('setCurrentTrack', state.playlist[0])
+    }
   },
   toggle ({ state, dispatch }) {
     if (state.isPlaying) {
