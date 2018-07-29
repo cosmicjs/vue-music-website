@@ -15,6 +15,14 @@
     .container
       player(:album='album')
   section.about-and-comments
+    .container
+      .pane.about-and-form
+        .pane-title About
+        .about(v-html='album.content')
+        comment-form(:album='album')
+      .pane
+        .pane-title {{ 148 }} Comments
+        comments(:album='album')
 </template>
 
 <script>
@@ -120,4 +128,28 @@ export default {
 
   section.player
     transition: background-color .2s ease
+
+  section.about-and-comments
+    color: #333333
+    background-color: #ffffff
+    padding: 32px 0
+
+    .container
+      display: flex
+
+      .pane
+
+        &.about-and-form
+          width: 320px
+          flex-shrink: 0
+          margin-right: 48px
+
+        .pane-title
+          font-size: 13px
+          opacity: .7
+          margin-bottom: 32px
+
+        .about
+          font-size: 13px
+          line-height: 1.5
 </style>

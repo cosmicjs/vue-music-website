@@ -1,5 +1,5 @@
 <template lang='pug'>
-nuxt-link.cosmic-logo(to='https://cosmicjs.com')
+a.cosmic-logo(href='https://cosmicjs.com')
   .text
     .pre Powered by
     .brand Cosmic JS
