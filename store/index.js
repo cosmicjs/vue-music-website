@@ -24,6 +24,11 @@ export const mutations = {
     const track = album.metadata.tracks.find(track => track._id === trackId)
     Vue.set(track, 'duration', duration)
   },
+  setTrackPath (state, { albumId, trackId, path }) {
+    const album = state.author.metadata.albums.find(album => album._id === albumId)
+    const track = album.metadata.tracks.find(track => track._id === trackId)
+    Vue.set(track, 'path', path)
+  },
   setAlbumColor (state, { albumId, color }) {
     const album = state.author.metadata.albums.find(album => album._id === albumId)
     Vue.set(album, 'color', color)

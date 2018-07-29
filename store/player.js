@@ -8,15 +8,22 @@ class Player {
   continue () {
     this.audio.play()
   }
-  play (track, onEnded) {
+  seek (ratio) {
+    if (this.audio) {
+      this.audio.currentTime = this.audio.duration * ratio
+    }
+  }
+  play (track, onEnded, onTimeUpdate) {
     if (this.audio && !this.audio.paused) {
       this.audio.pause()
     }
     delete this.audio
+    onTimeUpdate({target: {currentTime: 0, duration: 1}})
     const url = track.metadata.audio.url
     this.audio = new Audio(url)
     this.audio.play()
     this.audio.addEventListener('ended', onEnded)
+    this.audio.addEventListener('timeupdate', onTimeUpdate)
   }
 }
 
@@ -26,6 +33,7 @@ export const state = () => ({
   playlist: [],
   nextTrack: {},
   currentTrack: {},
+  progress: 0,
   isPlaying: false
 })
 
@@ -41,6 +49,9 @@ export const mutations = {
   },
   setIsPlaying (state, isPlaying) {
     state.isPlaying = isPlaying
+  },
+  setProgress (state, e) {
+    state.progress = e.target.currentTime / (e.target.duration / 100)
   }
 }
 
@@ -72,7 +83,11 @@ export const actions = {
   },
   playNextTrack ({ commit, dispatch, state }) {
     commit('setCurrentTrack', state.nextTrack)
-    player.play(state.nextTrack, () => dispatch('pickNextOrStop'))
+    player.play(
+      state.nextTrack,
+      () => dispatch('pickNextOrStop'),
+      (e) => commit('setProgress', e)
+    )
     commit('setIsPlaying', true)
   },
   pickNextOrStop ({ state, commit, dispatch }) {
@@ -82,8 +97,6 @@ export const actions = {
       dispatch('playNextTrack')
     } else {
       commit('setIsPlaying', false)
-      commit('setNextTrack', state.playlist[0])
-      commit('setCurrentTrack', state.playlist[0])
     }
   },
   playPrev ({ commit, dispatch, state }) {
@@ -99,5 +112,8 @@ export const actions = {
     } else {
       dispatch('continue')
     }
+  },
+  seek({ commit }, ratio) {
+    player.seek(ratio)
   }
 }

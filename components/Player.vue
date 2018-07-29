@@ -10,10 +10,34 @@
         svg-icon(v-if='showIsPlaying', name='pauseBig')
         svg-icon(v-else, name='playBig')
       button.control.next(:class='{disabled: !ableToNext}', @click='pickNextOrStop'): svg-icon(name='next')
+  .waveform-container
+    .svg-container(ref='svg', @click.stop='handleSeek')
+      transition(name='fade')
+        svg.waveform(
+          v-if='trackToDisplay.path',
+          viewBox='0 -1 992 2',
+          preserveAspectRatio='none'
+        )
+          g
+            path(:d='trackToDisplay.path')
+        .dummy-line(v-else)
+      .overlay(
+        :style='{color: keyColor, transform: `translateX(-${100 - progressToShow}%)`}'
+      )
+        svg.waveform(
+          v-if='trackToDisplay.path',
+          viewBox='0 -1 992 2',
+          preserveAspectRatio='none',
+          :style='{transform: `translateX(${100 - progressToShow}%)`}'
+        )
+          g
+            path(:d='trackToDisplay.path')
+        .dummy-line(v-else)
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import AudioSVGWaveform from '~/lib/audio-waveform-svg-path.js'
 import SvgIcon from '~/components/SvgIcon.vue'
 
 export default {
@@ -36,9 +60,12 @@ export default {
     }
   },
   computed: {
-    ...mapState('player', ['currentTrack', 'nextTrack', 'isPlaying']),
+    ...mapState('player', ['currentTrack', 'nextTrack', 'isPlaying', 'progress']),
     ...mapState(['author']),
     ...mapGetters('player', ['playlistHasPrev', 'playlistHasNext']),
+    progressToShow () {
+      return this.trackToDisplay == this.currentTrack ? this.progress : 0
+    },
     ableToPrev () {
       return this.ableToNavigate && this.playlistHasPrev
     },
@@ -60,19 +87,31 @@ export default {
     },
     ableToNavigate () {
       return this.playlist.indexOf(this.currentTrack) !== -1
+    },
+    keyColor () {
+      return process.env.keyColorBG
     }
   },
   methods: {
     ...mapMutations('player', [
       'setPlaylist', 'setNextTrack'
     ]),
+    ...mapMutations(['setTrackPath']),
     ...mapActions('player', [
-      'playNextTrack', 'pickNextOrStop', 'playPrev', 'toggle'
+      'playNextTrack', 'pickNextOrStop', 'playPrev', 'seek', 'toggle'
     ]),
     chargeAndPlay (track) {
       this.setPlaylist(this.playlist)
       this.setNextTrack(track)
       this.playNextTrack()
+    },
+    handleSeek (e) {
+      const container = this.$refs.svg
+      const { left, right } = container.getBoundingClientRect()
+      const width = right - left
+      const click = e.clientX - left
+      const ratio = click / width
+      this.seek(ratio)
     },
     handleToggle () {
       if (this.showIsPlaying) {
@@ -84,6 +123,28 @@ export default {
           this.setPlaylist(this.playlist)
           this.playNextTrack()
         }
+      }
+    },
+    analyzeCurrentTrack () {
+      const track = this.trackToDisplay
+      if (!track.path) {
+        const albumId = this.album._id
+        const trackId = track._id
+        const trackWaveform = new AudioSVGWaveform({url: track.metadata.audio.imgix_url})
+        trackWaveform.loadFromUrl().then(() => {
+          const path = trackWaveform.getPath()
+          this.setTrackPath({ albumId, trackId, path})
+        })
+      }
+    }
+  },
+  mounted () {
+    this.analyzeCurrentTrack()
+  },
+  watch: {
+    trackToDisplay (newTrack) {
+      if (newTrack) {
+        this.analyzeCurrentTrack()
       }
     }
   }
@@ -99,6 +160,8 @@ export default {
     display: flex
     align-items: center
     width: 320px
+    flex-shrink: 0
+    margin-right: 48px
 
     .track-info
       margin-right: auto
@@ -112,6 +175,7 @@ export default {
         font-size: 13px
 
     .controls
+      margin-right: -8px
 
       .control
         cursor: pointer
@@ -128,4 +192,48 @@ export default {
         &.disabled
           opacity: .25
           pointer-events: none
+
+  .waveform-container
+    flex-grow: 1
+    min-width: 0
+    display: flex
+    align-items: center
+
+    .svg-container
+      width: 100%
+      height: 48px
+      position: relative
+      overflow: hidden
+
+      .waveform
+        width: 100%
+        height: 100%
+        stroke: currentColor
+        stroke-width: 1px
+
+      .dummy-line
+        width: 100%
+        height: 2px
+        background-color: currentColor
+        position: absolute
+        left: 0
+        top: 50%
+        margin-top: -1px
+
+      .overlay
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        overflow: hidden
+
+        .waveform
+          stroke-width: 3px
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .5s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
 </style>
