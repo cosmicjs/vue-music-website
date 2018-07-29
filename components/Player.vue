@@ -5,15 +5,15 @@
       .title {{ trackToDisplay.title }}
       .author by {{ author.title }}
     .controls
-      button.control.prev: svg-icon(name='prev')
+      button.control.prev(:class='{disabled: !ableToPrev}', @click='playPrev'): svg-icon(name='prev')
       button.control.toggle(@click='handleToggle')
         svg-icon(v-if='showIsPlaying', name='pauseBig')
         svg-icon(v-else, name='playBig')
-      button.control.next: svg-icon(name='next')
+      button.control.next(:class='{disabled: !ableToNext}', @click='pickNextOrStop'): svg-icon(name='next')
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import SvgIcon from '~/components/SvgIcon.vue'
 
 export default {
@@ -38,6 +38,13 @@ export default {
   computed: {
     ...mapState('player', ['currentTrack', 'nextTrack', 'isPlaying']),
     ...mapState(['author']),
+    ...mapGetters('player', ['playlistHasPrev', 'playlistHasNext']),
+    ableToPrev () {
+      return this.ableToNavigate && this.playlistHasPrev
+    },
+    ableToNext () {
+      return this.ableToNavigate && this.playlistHasNext
+    },
     playlist () {
       return this.album.metadata.tracks
     },
@@ -50,6 +57,9 @@ export default {
     },
     showIsPlaying () {
       return this.trackToDisplay == this.currentTrack && this.isPlaying
+    },
+    ableToNavigate () {
+      return this.playlist.indexOf(this.currentTrack) !== -1
     }
   },
   methods: {
@@ -57,7 +67,7 @@ export default {
       'setPlaylist', 'setNextTrack'
     ]),
     ...mapActions('player', [
-      'playNextTrack', 'toggle'
+      'playNextTrack', 'pickNextOrStop', 'playPrev', 'toggle'
     ]),
     chargeAndPlay (track) {
       this.setPlaylist(this.playlist)
@@ -114,4 +124,8 @@ export default {
 
         &.toggle
           margin: 0 16px
+
+        &.disabled
+          opacity: .25
+          pointer-events: none
 </style>

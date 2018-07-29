@@ -43,12 +43,13 @@ export default {
   },
   methods: {
     ...mapMutations(['setTrackDuration']),
-    ...mapMutations('player', ['setNextTrack']),
+    ...mapMutations('player', ['setPlaylist', 'setNextTrack']),
     ...mapActions('player', ['playNextTrack', 'toggle']),
     handleClick (track) {
       if (track == this.currentTrack) {
         this.toggle()
       } else {
+        this.setPlaylist(this.tracks)
         this.setNextTrack(track)
         this.playNextTrack()
       }

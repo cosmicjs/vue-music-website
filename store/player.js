@@ -44,6 +44,23 @@ export const mutations = {
   }
 }
 
+export const getters = {
+  playlistHasNext (state) {
+    const idx = state.playlist.indexOf(state.currentTrack)
+    if (idx === -1 || idx === state.playlist.length - 1) {
+      return false
+    }
+    return true
+  },
+  playlistHasPrev (state) {
+    const idx = state.playlist.indexOf(state.currentTrack)
+    if (idx === -1 || idx === 0) {
+      return false
+    }
+    return true
+  }
+}
+
 export const actions = {
   pause ({ commit }) {
     commit('setIsPlaying', false)
@@ -67,6 +84,13 @@ export const actions = {
       commit('setIsPlaying', false)
       commit('setNextTrack', state.playlist[0])
       commit('setCurrentTrack', state.playlist[0])
+    }
+  },
+  playPrev ({ commit, dispatch, state }) {
+    const idx = state.playlist.indexOf(state.currentTrack)
+    if (idx !== -1) {
+      commit('setNextTrack', state.playlist[idx - 1])
+      dispatch('playNextTrack')
     }
   },
   toggle ({ state, dispatch }) {
