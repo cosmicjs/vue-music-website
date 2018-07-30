@@ -1,5 +1,6 @@
 <template lang='pug'>
 .albums
+  .empty-message(v-if='!albums || albums.length === 0') Empty
   router-link.album(
     v-for='album in albums',
     :key='album.slug',
@@ -33,6 +34,13 @@ export default {
 
   @include mobile
     grid-template-columns: 1fr 1fr
+
+  .empty-message
+    text-align: center
+    padding: 32px
+    font-size: 16px
+    opacity: .5
+    font-weight: 600
 
   .album
     display: flex

@@ -58,6 +58,7 @@ export default {
   },
   beforeMount () {
     const playlist = this.album.metadata.tracks
+    if (!playlist) { return }
     if (playlist.length > 0) {
       this.setNextTrack(playlist[0])
     } else {
@@ -81,6 +82,7 @@ export default {
       return this.album.metadata.tracks
     },
     trackToDisplay () {
+      if (!this.playlist) { return {} }
       if (this.playlist.indexOf(this.currentTrack) !== -1) {
         return this.currentTrack
       } else {
@@ -91,6 +93,7 @@ export default {
       return this.trackToDisplay == this.currentTrack && this.isPlaying
     },
     ableToNavigate () {
+      if (!this.playlist) { return false }
       return this.playlist.indexOf(this.currentTrack) !== -1
     },
     keyColor () {
@@ -106,6 +109,7 @@ export default {
       'playNextTrack', 'pickNextOrStop', 'playPrev', 'seek', 'toggle'
     ]),
     chargeAndPlay (track) {
+      if (!this.playlist) { return }
       this.setPlaylist(this.playlist)
       this.setNextTrack(track)
       this.playNextTrack()
@@ -125,6 +129,7 @@ export default {
         if (this.nextTrack == this.currentTrack) {
           this.toggle()
         } else {
+          if (!this.playlist) { return }
           this.setPlaylist(this.playlist)
           this.playNextTrack()
         }
@@ -132,7 +137,7 @@ export default {
     },
     analyzeCurrentTrack () {
       const track = this.trackToDisplay
-      if (!track.path) {
+      if (track.metadata && track.metadata.audio && !track.path) {
         const albumId = this.album._id
         const trackId = track._id
         const trackWaveform = new AudioSVGWaveform({url: track.metadata.audio.imgix_url})

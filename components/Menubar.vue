@@ -4,7 +4,7 @@
   section
     .title Discography
     albums
-  section
+  section(v-if='author')
     .title Contact me
     contacts
   section.last
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Albums from '~/components/Albums.vue'
 import Author from '~/components/Author.vue'
 import Contacts from '~/components/Contacts.vue'
@@ -26,6 +27,7 @@ export default {
     CosmicLogo
   },
   computed: {
+    ...mapState(['author']),
     style () {
       return {
         backgroundColor: process.env.keyColorBG,

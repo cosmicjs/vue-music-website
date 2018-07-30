@@ -25,13 +25,13 @@ export default {
 .app-layout
   display: flex
   min-height: 100vh
+  min-width: 320px
 
   @include mobile
 
     &.index
 
       .menubar
-        width: unset
         flex-grow: 1
 
       .page-content

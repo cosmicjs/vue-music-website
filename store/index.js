@@ -37,7 +37,9 @@ export const actions = {
       limit: 1,
       hide_metafields: true
     })
-    const author = response.objects[0]
-    commit('setAuthor', author)
+    if (response.status !== 'empty') {
+      const author = response.objects[0]
+      commit('setAuthor', author)
+    }
   }
 }

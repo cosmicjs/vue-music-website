@@ -1,7 +1,7 @@
 <template lang='pug'>
 .album
 
-  section.main(:style='style')
+  section.main(:style='style', v-if='album')
     .container
       .cover-and-info
         .cover(
@@ -13,17 +13,17 @@
           .release-date released {{ releaseDate }}
           playlist.playlist(:album='album')
 
-  section.player(:style='style2')
+  section.player(v-if='album', :style='style2')
     .container
       player(:album='album')
 
-  section.breadcrumbs
+  section.breadcrumbs(v-if='album')
     .container
       nuxt-link.crumb(:to='{name: "index"}') Discography
       .separator
       nuxt-link.crumb(:to='{}') {{ album.title }}
 
-  section.about-and-comments
+  section.about-and-comments(v-if='album')
     .container
       .pane.about-and-form
         .pane-title About
@@ -63,6 +63,7 @@ export default {
       return []
     },
     album () {
+      if (!this.albums) { return null }
       const slug = this.$route.params.slug
       return slug ? this.albums.find(album => album.slug === slug) : this.albums[0]
     },
@@ -94,7 +95,7 @@ export default {
     ...mapActions('comments', ['fetchComments']),
   },
   async mounted () {
-    if (!this.album.metadata.cover || this.album.color) { return }
+    if (!this.album || !this.album.metadata.cover || this.album.color) { return }
     const albumId = this.album._id
     const url = this.album.metadata.cover.imgix_url
     RGBaster.colors(url, { success: (payload) => {

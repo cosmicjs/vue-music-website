@@ -2,7 +2,27 @@
 
 Personal music site built with Nuxt and Cosmic JS
 
-## Build Setup
+## Prepare your Cosmic JS bucket
+
+Import example [bucket.json](bucket.json) to your Cosmic JS bucket.
+
+## Clone this repository
+
+``` bash
+git clone https://github.com/zezic/cosmicjs-music-site.git
+cd cosmicjs-music-site
+```
+
+## Configure
+
+Copy `instance.config.example.js` to `instance.config.js` and edit it - adjust your Cosmic JS bucket `slug`, `read_key` and `write_key`.
+
+``` bash
+cp instance.config.example.js instance.config.js
+nano instance.config.js
+```
+
+## Setup and run
 
 ``` bash
 # install dependencies
@@ -19,5 +39,6 @@ $ npm start
 $ npm run generate
 ```
 
+This app is based on Nuxt.js.
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
 

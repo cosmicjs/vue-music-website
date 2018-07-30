@@ -1,12 +1,14 @@
 <template lang='pug'>
 .author
-  .photo(
-    v-if='author.metadata.photo',
-    :style='{backgroundImage: `url("${author.metadata.photo.url}")`}'
-  )
-  .info
-    h1.name {{ author.title }}
-    .bio(v-html='author.content')
+  .empty-message(v-if='!author') Please, create an "Author" object at Cosmic JS dashboard and add some "Albums" to it.
+  template(v-else)
+    .photo(
+      v-if='author.metadata.photo',
+      :style='{backgroundImage: `url("${author.metadata.photo.url}")`}'
+    )
+    .info
+      h1.name {{ author.title }}
+      .bio(v-html='author.content')
 </template>
 
 <script>
@@ -23,6 +25,11 @@ export default {
 <style scoped lang='sass'>
 .author
   display: flex
+
+  .empty-message
+    text-align: center
+    font-size: 16px
+    opacity: .5
 
   .photo
     width: 64px

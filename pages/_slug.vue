@@ -22,9 +22,9 @@ export default {
   },
   head () {
     return {
-      title: `${this.album.title} by ${this.author.title}`,
+      title: this.album ? `${this.album.title} by ${this.author.title}` : (this.author ? this.author.title : 'Music Page'),
       meta: [
-        { hid: 'description', name: 'description', content: striptags(this.album.content) }
+        { hid: 'description', name: 'description', content: striptags(this.album ? this.album.content : '') }
       ]
     }
   },
@@ -33,6 +33,7 @@ export default {
     ...mapState(['author']),
     album () {
       const slug = this.$route.params.slug
+      if (!this.albums) { return null }
       return slug ? this.albums.find(album => album.slug === slug) : this.albums[0]
     }
   },
