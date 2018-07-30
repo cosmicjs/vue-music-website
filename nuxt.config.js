@@ -20,7 +20,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#FFCC00' },
+  loading: { color: instanceConfig.loadingColor },
   modules: [ '@nuxtjs/moment' ],
   plugins: [ '~/plugins/pluralize' ],
   /*

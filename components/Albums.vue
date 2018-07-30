@@ -60,6 +60,8 @@ export default {
       flex-shrink: 0
       background-position: center center
       background-size: cover
+      position: relative
+
       @include mobile
         margin-right: 0
         margin-bottom: 20px
@@ -72,6 +74,13 @@ export default {
         height: 48px
         border: 20px solid rgba(255, 255, 255, .1)
         border-radius: 50%
+
+        @include mobile
+          position: absolute
+          top: 10%
+          width: 80%
+          height: 80%
+          border-width: 13vw
 
     .info
 
