@@ -1,6 +1,7 @@
 # Cosmic JS Music Site
 
 ![screenshot](screenshot.png)
+
 Personal music site built with Nuxt and Cosmic JS
 
 ## Prepare your Cosmic JS bucket
