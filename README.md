@@ -15,11 +15,19 @@ cd cosmicjs-music-site
 
 ## Configure
 
-Copy `instance.config.example.js` to `instance.config.js` and edit it - adjust your Cosmic JS bucket `slug`, `read_key` and `write_key`.
+Copy `instance.config.example.js` to `instance.config.js` and adjust some colors if you need.
 
 ``` bash
 cp instance.config.example.js instance.config.js
 nano instance.config.js
+```
+
+You can see that Cosmic JS access credentials are picked up from next environment variables:
+
+```
+COSMIC_BUCKET
+COSMIC_READ_KEY
+COSMIC_WRITE_KEY
 ```
 
 ## Setup and run
@@ -32,7 +40,6 @@ $ npm install # Or yarn install
 $ npm run dev
 
 # build for production and launch server
-$ npm run build
 $ npm start
 
 # generate static project
