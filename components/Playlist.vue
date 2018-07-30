@@ -60,7 +60,7 @@ export default {
     this.tracks.map(track => {
       if (track.duration) { return }
       const trackId = track._id
-      const url = track.metadata.audio.url
+      const url = track.metadata.audio.imgix_url
       const audio = new Audio(url)
       audio.addEventListener('loadedmetadata', (e) => {
         const duration = audio.duration

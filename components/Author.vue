@@ -4,7 +4,7 @@
   template(v-else)
     .photo(
       v-if='author.metadata.photo',
-      :style='{backgroundImage: `url("${author.metadata.photo.url}")`}'
+      :style='{backgroundImage: `url("${author.metadata.photo.imgix_url}")`}'
     )
     .info
       h1.name {{ author.title }}

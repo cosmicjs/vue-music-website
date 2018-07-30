@@ -6,7 +6,7 @@
     :key='album.slug',
     :to='{ name: "slug", params: { slug: album.slug } }'
   )
-    .cover(:style='album.metadata.cover ? {backgroundImage: `url("${album.metadata.cover.url}")`} : {}')
+    .cover(:style='album.metadata.cover ? {backgroundImage: `url("${album.metadata.cover.imgix_url}")`} : {}')
       .cd(v-if='!album.metadata.cover')
     .info
       .name {{ album.title }}

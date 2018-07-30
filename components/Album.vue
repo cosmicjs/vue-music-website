@@ -6,7 +6,7 @@
       .cover-and-info
         .cover(
           v-if='album.metadata.cover',
-          :style='{backgroundImage: `url("${album.metadata.cover.url}")`}'
+          :style='{backgroundImage: `url("${album.metadata.cover.imgix_url}")`}'
         )
         .info
           h2.title {{ album.title }}
