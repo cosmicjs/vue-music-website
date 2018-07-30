@@ -4,7 +4,7 @@
   section
     .title Discography
     albums
-  section(v-if='author')
+  section(v-if='author && (author.metadata.email || author.metadata.skype)')
     .title Contact me
     contacts
   section.last
