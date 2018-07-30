@@ -2,24 +2,28 @@
 
 ![screenshot](screenshot.png)
 
+### [View Demo](http://music-site.cosmicapp.co)
+
 Personal music site built with Nuxt and Cosmic JS
 
-## Prepare your Cosmic JS bucket
+## How to
+
+### Prepare your Cosmic JS bucket
 
 Import example [bucket.json](bucket.json) to your Cosmic JS bucket.
 
-## Clone this repository
+### Clone this repository
 
 ``` bash
 git clone https://github.com/zezic/cosmicjs-music-site.git
 cd cosmicjs-music-site
 ```
 
-## Configure
+### Configure
 
 Edit `instance.config.js` to adjust app colors if you need.
 
-You can see that Cosmic JS access credentials are picked up from next environment variables:
+You can see that Cosmic JS access credentials are picked up from the next environment variables:
 
 ```
 COSMIC_BUCKET
@@ -27,7 +31,7 @@ COSMIC_READ_KEY
 COSMIC_WRITE_KEY
 ```
 
-## Setup and run
+### Setup and run
 
 ``` bash
 # install dependencies
