@@ -1,9 +1,9 @@
 <template lang='pug'>
 a.cosmic-logo(href='https://cosmicjs.com')
-  .text
-    .pre Powered by
-    .brand Cosmic JS
   .icon: svg-icon(name='cosmic')
+  .text
+    .pre Proudly Powered by
+    .brand Cosmic JS
 </template>
 
 <script>
@@ -31,5 +31,5 @@ export default {
       font-weight: 600
 
   .icon
-    margin-left: 16px
+    margin-right: 16px
 </style>
