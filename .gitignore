@@ -13,4 +13,3 @@ dist
 # other
 .tern-port
 yarn-error.log
-instance.config.js

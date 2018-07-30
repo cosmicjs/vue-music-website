@@ -17,12 +17,7 @@ cd cosmicjs-music-site
 
 ## Configure
 
-Copy `instance.config.example.js` to `instance.config.js` and adjust some colors if you need.
-
-``` bash
-cp instance.config.example.js instance.config.js
-nano instance.config.js
-```
+Edit `instance.config.js` to adjust app colors if you need.
 
 You can see that Cosmic JS access credentials are picked up from next environment variables:
 
