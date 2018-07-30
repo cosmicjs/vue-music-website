@@ -22,6 +22,7 @@ module.exports = {
   */
   loading: { color: '#FFCC00' },
   modules: [ '@nuxtjs/moment' ],
+  plugins: [ '~/plugins/pluralize' ],
   /*
   ** Build configuration
   */

@@ -28,11 +28,16 @@
           v-if='trackToDisplay.path',
           viewBox='0 -1 992 2',
           preserveAspectRatio='none',
-          :style='{transform: `translateX(${100 - progressToShow}%)`}'
+          :style='{transform: `translateX(${100 - progressToShow}%) scaleY(48)`}'
         )
           g
             path(:d='trackToDisplay.path')
         .dummy-line(v-else)
+  .nav-dots
+    .nav-dot(
+      v-for='track in album.metadata.tracks',
+      :style='{backgroundColor: track == trackToDisplay ? keyColor : "currentColor"}'
+    )
 </template>
 
 <script>
@@ -152,9 +157,16 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+@import "~assets/sass/responsive"
+
 .player
   height: 80px
   display: flex
+
+  @include mobile
+    flex-direction: column
+    height: unset
+    padding-top: 8px
 
   .title-and-controls
     display: flex
@@ -162,6 +174,12 @@ export default {
     width: 320px
     flex-shrink: 0
     margin-right: 48px
+
+    @include mobile
+      margin-right: 0
+      order: 1
+      width: unset
+      height: 64px
 
     .track-info
       margin-right: auto
@@ -199,17 +217,29 @@ export default {
     display: flex
     align-items: center
 
+    @include mobile
+      order: 0
+
     .svg-container
       width: 100%
       height: 48px
       position: relative
       overflow: hidden
 
+      @include mobile
+        height: 64px
+
       .waveform
         width: 100%
-        height: 100%
         stroke: currentColor
         stroke-width: 1px
+        transform: scaleY(48)
+        vertical-align: top
+        top: 50%
+        margin-top: 23px
+
+        @include mobile
+          margin-top: 31px
 
       .dummy-line
         width: 100%
@@ -230,6 +260,23 @@ export default {
 
         .waveform
           stroke-width: 3px
+
+  .nav-dots
+    display: none
+    text-align: center
+    order: 2
+    padding: 8px
+
+    @include mobile
+      display: block
+
+    .nav-dot
+      width: 8px
+      height: 8px
+      display: inline-block
+      margin: 0 4px
+      border-radius: 50%
+      vertical-align: top
 
 .fade-enter-active, .fade-leave-active
   transition: opacity .5s

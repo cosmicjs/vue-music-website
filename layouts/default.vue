@@ -1,5 +1,5 @@
 <template lang='pug'>
-.app-layout
+.app-layout(:class='layoutClass')
   menubar.menubar
   nuxt.page-content
 </template>
@@ -10,14 +10,37 @@ import Menubar from '~/components/Menubar.vue'
 export default {
   components: {
     Menubar
+  },
+  computed: {
+    layoutClass () {
+      return this.$route.name === 'index' ? 'index' : 'inner'
+    }
   }
 }
 </script>
 
 <style scoped lang='sass'>
+@import "~assets/sass/responsive"
+
 .app-layout
   display: flex
   min-height: 100vh
+
+  @include mobile
+
+    &.index
+
+      .menubar
+        width: unset
+        flex-grow: 1
+
+      .page-content
+        display: none
+
+    &.inner
+
+      .menubar
+        display: none
 
   .menubar
     width: 256px

@@ -9,8 +9,8 @@
       .cd(v-if='!album.metadata.cover')
     .info
       .name {{ album.title }}
-      .released March 2018
-      .tracks-count 7 tracks
+      .released {{ $moment(album.metadata.released_at).format('MMMM D, YYYY') }}
+      .tracks-count(v-if='album.metadata.tracks') {{ album.metadata.tracks.length }} {{ 'track' | pluralize(album.metadata.tracks.length) }}
 </template>
 
 <script>
@@ -25,14 +25,23 @@ export default {
 </script>
 
 <style scoped lang='sass'>
+@import "~assets/sass/responsive"
+
 .albums
   display: grid
   grid-gap: 24px
+
+  @include mobile
+    grid-template-columns: 1fr 1fr
 
   .album
     display: flex
     color: inherit
     text-decoration: none
+
+    @include mobile
+      flex-direction: column
+
 
     &:hover
       .info
@@ -51,6 +60,12 @@ export default {
       flex-shrink: 0
       background-position: center center
       background-size: cover
+      @include mobile
+        margin-right: 0
+        margin-bottom: 20px
+        width: 100%
+        height: 0
+        padding-top: 100%
 
       .cd
         width: 48px
