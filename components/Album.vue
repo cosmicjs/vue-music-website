@@ -15,7 +15,7 @@
 
   section.player(v-if='album', :style='style2')
     .container
-      player(:album='album')
+      //- player(:album='album')
 
   section.breadcrumbs(v-if='album')
     .container
