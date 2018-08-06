@@ -2,7 +2,7 @@
 
 ![screenshot](screenshot.png)
 
-### [View Demo](http://music-site.cosmicapp.co)
+### [View Demo](https://cosmicjs.com/apps/vue-music-website)
 
 Personal music site built with Nuxt and Cosmic JS
 
@@ -15,7 +15,7 @@ Import example [bucket.json](bucket.json) to your Cosmic JS bucket.
 ### Clone this repository
 
 ``` bash
-git clone https://github.com/zezic/cosmicjs-music-site.git
+git clone https://github.com/cosmicjs/vue-music-website
 cd cosmicjs-music-site
 ```
 
