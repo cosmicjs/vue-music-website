@@ -1,4 +1,4 @@
-# Cosmic JS Music Site
+# Vue.js Music Website
 
 ![screenshot](screenshot.png)
 
