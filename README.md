@@ -4,7 +4,7 @@
 
 ### [View Demo](https://cosmicjs.com/apps/vue-music-website)
 
-Personal music site built with Nuxt and Cosmic JS
+Personal music site built with Nuxt and [Cosmic JS](https://cosmicjs.com/buckets).
 
 ## How to
 
